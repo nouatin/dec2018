@@ -1,10 +1,3 @@
-// npm init
-// npm install express --save
-// npm install socket.io
-// npm install mqtt --save
-// npm install child_process
-// npm install string-to-json
-// npm install format-datetime
 
 var express = require('express');
 var app = require('express')();
@@ -24,6 +17,9 @@ var date = new Date();
 
 var toClient="";
 
+var manageTimer = true;
+var beginTimer;
+
 var fileIndex = 0;
 var fileName = "";
 
@@ -33,9 +29,11 @@ var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'sahnotifications@gmail.com',
-    pass: 'xxxxxxxxxx'
+    pass: 'google1976'
   }
 });
+
+
 
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/defi";
@@ -87,6 +85,7 @@ scanner.on('connection', function(socket) {
 	      fileIndex += 1;
 	      fileName = "photo_" + fileIndex + ".jpg";
 	      getPhotos(fileName);
+	      //sendMail();
 	      var delay = setTimeout(function(){	        
          	var newName = "/home/pi/defi_2018/public/photos/" + fileName;
 	        fs.rename(fileName, newName, function(err){
@@ -127,7 +126,8 @@ function emailTextBuilder(){
     if(toClient.lampStatus == 0) 
         status = "OFF";
     else status = "ON";
-    var msg = "All value at "+dateFormat(date, "yyyy-MM-dd,hh:mm:ss") + "\n";
+    //var msg = "All value at "+dateFormat(date, "yyyy-MM-dd,hh:mm:ss") + "\n";
+    var msg = "All value at " + date.toString() + "\n";
     msg += "Outside temperature : " + toClient.temp.outSide + "*C;" + "\n";
     msg += "Inside temperature : " + toClient.temp.inSide + "*C;" + "\n";
     msg += "Inside humidity : " + toClient.hum + "%;" + "\n";
@@ -138,7 +138,7 @@ function emailTextBuilder(){
 
 function getPhotos(fileName){
   let spawn = require("child_process").spawn; 
-  let process = spawn('python',["./script.py", fileName] ); 
+  let process = spawn('python',["./public/photos/script.py", fileName] ); 
   console.log("Photo OK !");
  
   process.stdout.on('data', function(data) { 
