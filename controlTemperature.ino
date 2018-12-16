@@ -16,8 +16,8 @@ float Celsius=0;
 
 // Wifi constant and server ip !
 //***********************
-const char* ssid = "Fenou-Houefa"; //"ForTheBest";
-const char* password = "djidjoho13nouatin";
+const char* ssid = "XXXXXXXXXXXXXXXX"; 
+const char* password = "XXXXXXXXX";
 const char* mqtt_server = "192.168.0.143";
 
 WiFiClient espClient;
