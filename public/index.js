@@ -2,8 +2,9 @@ var socket = io('http://alexandresah.dlinkddns.com:8080/');
 var slideIndex = 1;
 var outSideValue = "";
 var inSideValue = "";
-var insideHumValue = "";
+var insideHumValue = 16;
 var lightStatus = "Off";
+var validPeriod = true;
 function openNav() {
     document.getElementById("mySidenav").style.width = "200px";	
 }
@@ -43,10 +44,14 @@ socket.on('toclientMail',function(msg){
 setInterval(function(){
 	socket.emit('fromclient', "update");
 	if(document.getElementById("light-status")){
-	  if(lightStatus == "1")
+	  if(lightStatus == "1"){
 	    document.getElementById("light-status").innerHTML = "On";
-	  else 
+	    document.getElementById("light-status").setAttribute("class", "on");
+	  }
+	  else {
 	    document.getElementById("light-status").innerHTML = "Off";
+	    document.getElementById("light-status").setAttribute("class", "off");
+	  }
 	}
 }, 1000);
 
@@ -66,6 +71,16 @@ $(document).ready(function(){
   });
     
 });
+
+function takePhoto(){
+    if(validPeriod){
+        socket.emit('fromclient', 'photo');
+        validPeriod = false;
+        setTimeout(function(){
+            validPeriod = true;
+        }, 3000);
+    }
+}
 
 function appearPhoto(fileName){
     let tag = document.getElementById("appear");

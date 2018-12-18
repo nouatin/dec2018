@@ -229,9 +229,14 @@ img {vertical-align: middle;}
   .prev, .next,.text {font-size: 11px}
 }
 
-#light-status{
-  background-color: #00FF00;
+#light-status{  
   padding:5px
+}
+.on{
+  background-color: #00FF00;
+}
+.off{
+  background-color: #FF00FF;
 }
 
 .btn{  
