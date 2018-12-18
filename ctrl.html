@@ -53,11 +53,11 @@
         </tr>
         <tr>   
           <td colspan="2"><button class="btn" onclick="sendLight()">On / Off</button></td>       
-          <td colspan="2"><h4 class="currentMenu">Light status : <span id="light-status"></span></h4></td>          
+          <td colspan="2"><h4 class="currentMenu">Light status : <span id="light-status" class= ""></span></h4></td>          
         </tr>
         <tr>
           <td colspan="2"><br><button class="btn" onclick="formForEmail()">Have all current value in Email</button></td>
-          <td colspan="2"><br><button class="btn" onclick="socket.emit('fromclient', 'photo')">Take photos from home camera</button></td>
+          <td colspan="2"><br><button class="btn" onclick="takePhoto()">Take photos from home camera</button></td>
         </tr>
       </table>
       

@@ -89,7 +89,7 @@ scanner.on('connection', function(socket) {
 	      var delay = setTimeout(function(){	        
          	var newName = "/home/pi/defi_2018/public/photos/" + fileName;
 	        fs.rename(fileName, newName, function(err){
-	            if(err) throw err;
+	            if(err) console.log("error for file name !");
 	            console.log("File rename complete");	            
 	            var msgFileName = '{\"from\":\"filePhotoName\",\"fileName\":\"';
 	            msgFileName += fileName + '\"}';
@@ -103,7 +103,7 @@ scanner.on('connection', function(socket) {
 	socket.on('email', function(adr){
 	    adr += "\n";
 	    fs.appendFile('forEmail.txt', adr, function(err){
-	        if(err) throw err;	    
+	        if(err) console.log("File note found Error !");	    
 	    });
 	    var textToSend = emailTextBuilder();
 	    sendMail(adr, textToSend);
@@ -139,7 +139,7 @@ function emailTextBuilder(){
 function getPhotos(fileName){
   let spawn = require("child_process").spawn; 
   let process = spawn('python',["./public/photos/script.py", fileName] ); 
-  console.log("Photo OK !");
+  console.log("Photo OK !"+ fileName);
  
   process.stdout.on('data', function(data) { 
         //res.send(data.toString()); 
@@ -159,7 +159,7 @@ function sendMail(addressEmail, textToSend){
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-            console.log(error);
+            console.log("error for send mail !");
         } else {
             console.log('Email sent: ' + info.response);
         }
