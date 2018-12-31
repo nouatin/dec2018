@@ -5,6 +5,7 @@ var inSideValue = "";
 var insideHumValue = 16;
 var lightStatus = "Off";
 var validPeriod = true;
+
 function openNav() {
     document.getElementById("mySidenav").style.width = "200px";	
 }
@@ -96,9 +97,10 @@ function appearPhoto(fileName){
     let br = document.createElement("br");
     tag.appendChild(br);
 }
+
 function formForEmail(){
     let tag = document.getElementById("appearForm");
-    if(tag.hasChildNodes()){
+    while(tag.hasChildNodes()){
         tag.removeChild(tag.childNodes[0]);
     }
     let div = document.createElement("div");
