@@ -17,9 +17,6 @@ var date = new Date();
 
 var toClient="";
 
-var manageTimer = true;
-var beginTimer;
-
 var fileIndex = 0;
 var fileName = "";
 
@@ -85,7 +82,6 @@ scanner.on('connection', function(socket) {
 	      fileIndex += 1;
 	      fileName = "photo_" + fileIndex + ".jpg";
 	      getPhotos(fileName);
-	      //sendMail();
 	      var delay = setTimeout(function(){	        
          	var newName = "/home/pi/defi_2018/public/photos/" + fileName;
 	        fs.rename(fileName, newName, function(err){
@@ -125,8 +121,7 @@ function emailTextBuilder(){
     var status;
     if(toClient.lampStatus == 0) 
         status = "OFF";
-    else status = "ON";
-    //var msg = "All value at "+dateFormat(date, "yyyy-MM-dd,hh:mm:ss") + "\n";
+    else status = "ON";    
     var msg = "All value at " + date.toString() + "\n";
     msg += "Outside temperature : " + toClient.temp.outSide + "*C;" + "\n";
     msg += "Inside temperature : " + toClient.temp.inSide + "*C;" + "\n";
