@@ -14,9 +14,8 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
 
-socket.on('toclient', function(msg) {
-    //var msg = JSON.parse(msgs);
-	console.log(msg);
+socket.on('toclient', function(msg) {    
+    console.log(msg);
     if(msg.from == "filePhotoName"){
         appearPhoto(msg.fileName);
     }
@@ -32,10 +31,10 @@ socket.on('toclient', function(msg) {
 });
 socket.on('toclientMail',function(msg){
     let tag = document.getElementById("appearForm");
-    if(tag.hasChildNodes()){
+    while(tag.hasChildNodes()){
         tag.removeChild(tag.childNodes[0]);
     }
-    let span = document.createElement("span");
+    let span = document.createElement("pre");
     span.setAttribute("style", "text-align:center;");
     var text = document.createTextNode(msg);
     span.appendChild(text);
@@ -124,9 +123,25 @@ function formForEmail(){
 function sendEmail(){
     var email = document.getElementById("email").value;
     console.log(email);
-    socket.emit('email', email);
+    if(emailIsValid (email.trim())){
+      	socket.emit('email', email);
+    }
+    else if(!document.getElementById("email").hasAttribute("style")){  
+    	console.log("Passe !");
+    	document.getElementById("email").style.borderColor = "red";
+    	
+    	let tag = document.getElementById("appearForm");
+    	let p = document.createElement("p");
+    	p.setAttribute("style", "color: red;");
+    	let text = document.createTextNode("Use valid syntaxe email please !");
+    	p.appendChild(text);
+    	tag.appendChild(p);
+    }
 }
 
+function emailIsValid (email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
 
 
 
