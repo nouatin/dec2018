@@ -25,6 +25,7 @@ PubSubClient client(espClient);
 
 long lastTime = 0;
 char msg[150];
+float temp=0, hum=0;
 
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -72,6 +73,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
   } else {
     digitalWrite(portLight, HIGH);  // Turn the light off
   }
+  int etat = digitalRead(portLight);      
+  snprintf (msg, 150, "{\"from\":\"device\",\"temp\":{\"outSide\":%.2f,\"inSide\":%.2f},\"hum\":%.2f,\"lampStatus\":%d}",Celsius, temp, hum, etat);
+  Serial.print("Publish message: ");
+  Serial.println(msg);
+  client.publish("defi/temperature", msg);
 }
 
 void reconnect() {
@@ -109,7 +115,9 @@ void loop() {
     Celsius = sensors.getTempCByIndex(0);
     float h = dht.readHumidity();
     float t = dht.readTemperature();
-    if (!isnan(h) && !isnan(t)) {             
+    if (!isnan(h) && !isnan(t)) {    
+      temp = t;
+      hum = h;
       int etat = digitalRead(portLight);      
       snprintf (msg, 150, "{\"from\":\"device\",\"temp\":{\"outSide\":%.2f,\"inSide\":%.2f},\"hum\":%.2f,\"lampStatus\":%d}",Celsius, t, h, etat);
       Serial.print("Publish message: ");
